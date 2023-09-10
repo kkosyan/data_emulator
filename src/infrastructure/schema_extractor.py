@@ -5,7 +5,6 @@ from src.domain.schema_extractor import SchemaExtractor
 
 
 class PostgresSchemaExtractor(SchemaExtractor):
-
     def __init__(self, host: str, port: str, database: str, user: str, password: str):
         self._host = host
         self._port = port
