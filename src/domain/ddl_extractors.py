@@ -6,6 +6,6 @@ class DdlExtractor(abc.ABC):
     def extract_schema(self, table: str) -> str:
         ...
 
-    @abc.abstractmethod()
+    @abc.abstractmethod
     def extract_objects(self, table: str) -> str:
         ...
