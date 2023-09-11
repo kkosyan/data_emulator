@@ -30,8 +30,8 @@ class SdvDataGenerator(DataGenerator):
                 conn.commit()
         return pd.DataFrame.from_records(body, columns=header)
 
-    def generate(self, table: str, sample_limit: Optional[int] = 5_000, resulting_limit: Optional[int] = 5_000):
+    def generate(self, table: str, sample_limit: Optional[int] = 5_000, synthetic_limit: Optional[int] = 5_000):
         data = self._extract_sample_data(table=table, sample_limit=sample_limit)
         model = GaussianCopula()
         model.fit(data)
-        return model.sample(resulting_limit)
+        return model.sample(synthetic_limit)
