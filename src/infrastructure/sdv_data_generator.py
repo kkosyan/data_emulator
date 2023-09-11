@@ -34,4 +34,4 @@ class SdvDataGenerator(DataGenerator):
         data = self._extract_sample_data(table=table, sample_limit=sample_limit)
         model = GaussianCopula()
         model.fit(data)
-        return model.sample(synthetic_limit)
+        return model.sample(synthetic_limit).to_records(index=False)
