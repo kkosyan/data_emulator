@@ -1,7 +1,7 @@
 import re
 import subprocess
 
-from src.domain.ddl_extractors import DdlExtractor
+from src.domain.ddl_extractor import DdlExtractor
 
 
 class PostgresSchemaExtractor(DdlExtractor):
