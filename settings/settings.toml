@@ -1,0 +1,13 @@
+[default]
+db__host = ''
+db__port = ''
+db__database = ''
+db__user = ''
+db__password = ''
+
+[testing]
+db__host = ''
+db__port = ''
+db__database = ''
+db__user = ''
+db__password = ''
