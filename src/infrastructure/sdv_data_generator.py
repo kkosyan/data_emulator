@@ -3,7 +3,7 @@ from typing import Optional
 import pandas as pd
 from sdv.tabular import GaussianCopula
 
-from src.domain.data_generator import DataGenerator
+from src.domain.data_generator import DataGenerator, DataGeneratorError
 from src.domain.database import Database
 
 
@@ -31,7 +31,10 @@ class SdvDataGenerator(DataGenerator):
         return pd.DataFrame.from_records(body, columns=header)
 
     def generate(self, table: str, sample_limit: Optional[int] = 5_000, synthetic_limit: Optional[int] = 5_000):
-        data = self._extract_sample_data(table=table, sample_limit=sample_limit)
-        model = GaussianCopula()
-        model.fit(data)
-        return model.sample(synthetic_limit).to_records(index=False)
+        try:
+            data = self._extract_sample_data(table=table, sample_limit=sample_limit)
+            model = GaussianCopula()
+            model.fit(data)
+            return model.sample(synthetic_limit).to_records(index=False)
+        except Exception as e:
+            DataGeneratorError(f"Cannot generate data for table {table} with exception {e}")
