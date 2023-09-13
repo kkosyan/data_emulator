@@ -7,7 +7,7 @@ db__password = ''
 
 [testing]
 db__host = ''
-db__port = ''
-db__database = ''
+db__port = '5432'
+db__database = 'postgres'
 db__user = ''
 db__password = ''
