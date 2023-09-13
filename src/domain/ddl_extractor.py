@@ -1,5 +1,11 @@
 import abc
 
+from src.domain.exception import DataEmulatorBaseException
+
+
+class DdlExtractorError(DataEmulatorBaseException):
+    ...
+
 
 class DdlExtractor(abc.ABC):
     @abc.abstractmethod
