@@ -14,11 +14,11 @@ class Context:
 class LocalContext(Context):
     def __init__(self, settings: dynaconf.Dynaconf):
         database_config = {
-            'host': settings.db__host,
-            'port': settings.db__port,
-            'database': settings.db__database,
-            'user': settings.db__user,
-            'password': settings.db__password,
+            'host': settings.db.host,
+            'port': settings.db.port,
+            'database': settings.db.database,
+            'user': settings.db.user,
+            'password': settings.db.password,
 
         }
         database = PostgresDatabase(**database_config)
