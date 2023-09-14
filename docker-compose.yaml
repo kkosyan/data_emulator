@@ -4,8 +4,8 @@ services:
   postgres-db:
     image: postgres:12
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=user
+      - POSTGRES_DB=test_postgres
+      - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=postgres
     ports:
       - "127.0.0.2:5432:5432"
@@ -19,7 +19,7 @@ services:
       network: host
     environment:
       - DE_DB__HOST=postgres-db
-      - DE_DB__USER=user
+      - DE_DB__USER=test_user
       - DE_DB__PASSWORD=postgres
     depends_on:
       - postgres-db
