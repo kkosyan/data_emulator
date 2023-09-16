@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=postgres
     ports:
-      - "127.0.0.2:5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - ./tests/init_migrations/sample_postgres_db_init_migrations.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -19,7 +19,7 @@ services:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=postgres
     ports:
-      - "127.0.0.2:5431:5431"
+      - "127.0.0.2:5432:5432"
     volumes:
       - ./tests/init_migrations/synthetic_postgres_db_init_migrations.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -40,5 +40,4 @@ services:
       - sample-postgres-db
       - synthetic-postgres-db
     command:
-      - python cli.py single-table-emulator --table-name users
-#      - && pytest -m e2e
+      - python cli.py single-table-emulator --table-name users && pytest -m e2e
