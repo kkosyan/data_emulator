@@ -19,7 +19,7 @@ services:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=postgres
     ports:
-      - "127.0.0.2:5432:5432"
+      - "127.0.0.2:5431:5431"
     volumes:
       - ./tests/init_migrations/synthetic_postgres_db_init_migrations.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -28,6 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile
       network: host
+    entrypoint: [ '/bin/sh', '-c' ]
     environment:
       - DE_SAMPLE_DB__HOST=sample-postgres-db
       - DE_SAMPLE_DB__USER=test_user
@@ -39,6 +40,5 @@ services:
       - sample-postgres-db
       - synthetic-postgres-db
     command:
-      - |
-        python cli.py single-table-emulator --table-name users
-        pytest -m e2e
+      - python cli.py single-table-emulator --table-name users
+#      - && pytest -m e2e
