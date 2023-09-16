@@ -1,6 +1,7 @@
 import pandas as pd
 import pytest
-from sdv.evaluation import evaluate
+from sdv.evaluation.single_table import evaluate_quality
+from sdv.metadata import SingleTableMetadata
 
 from src.app.config import get_settings
 from src.domain.database import PostgresDatabase
@@ -47,8 +48,9 @@ class TestService:
     def test_emulation_quality(self):
         sample_data = self._get_db_data(database=sample_database)
         synthetic_data = self._get_db_data(database=synthetic_database)
+        metadata = SingleTableMetadata()
+        metadata.detect_from_dataframe(data=sample_data)
 
-        quality_report = evaluate(sample_data, synthetic_data, metrics=['CSTest', 'KSTest'], aggregate=False)
+        quality_report = evaluate_quality(sample_data, synthetic_data, metadata)
 
-        assert quality_report.get_value('CSTest', 'normalized_score') >= 0.5
-        assert quality_report.get_value('KSTest', 'normalized_score') >= 0.5
+        assert quality_report.get_score() >= 0.5
