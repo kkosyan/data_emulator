@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  sample-postgres-db:
+    image: postgres:12
+    environment:
+      - POSTGRES_DB=sample_postgres_db
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "127.0.0.2:5432:5432"
+    volumes:
+      - ./tests/init_migrations/sample_postgres_db_init_migrations.sql:/docker-entrypoint-initdb.d/init.sql
+
+  synthetic-postgres-db:
+    image: postgres:12
+    environment:
+      - POSTGRES_DB=synthetic_postgres_db
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "127.0.0.2:5432:5432"
+    volumes:
+      - ./tests/init_migrations/synthetic_postgres_db_init_migrations.sql:/docker-entrypoint-initdb.d/init.sql
+
+  testrunner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    environment:
+      - DE_SAMPLE_DB__HOST=sample-postgres-db
+      - DE_SAMPLE_DB__USER=test_user
+      - DE_SAMPLE_DB__PASSWORD=postgres
+      - DE_SYNTHETIC_DB__HOST=synthetic-postgres-db
+      - DE_SYNTHETIC_DB__USER=test_user
+      - DE_SYNTHETIC_DB__PASSWORD=postgres
+    depends_on:
+      - sample-postgres-db
+      - synthetic-postgres-db
+    command:
+      - |
+        python cli.py single-table-emulator --table-name users
+        pytest -m e2e
