@@ -30,13 +30,17 @@ class PostgresDdlExtractor(DdlExtractor):
     def extract_schema(self, table: str) -> str:
         try:
             dump = self._get_dump(table=table)
-            return re.search("Schema: \w+", dump.decode()).group().split()[1]
+            schema_name = re.search("Schema: \w+", dump.decode()).group().split()[1]
+            return f"""
+                CREATE SCHEMA IF NOT EXISTS {schema_name};
+            """
         except Exception as e:
             raise DdlExtractorError(f"Cannot extract schema for table {table} with error {e}")
 
-    def extract_objects(self, table: str) -> list[str]:
+    def extract_objects(self, table: str) -> str:
         try:
             dump = self._get_dump(table=table)
-            return re.findall("CREATE .*?;|ALTER (?!.*OWNER TO).*?;", dump.decode(), flags=re.DOTALL)
+            objects = re.findall("CREATE .*?;|ALTER (?!.*OWNER TO).*?;", dump.decode(), flags=re.DOTALL)
+            return ' '.join(objects)
         except Exception as e:
             raise DdlExtractorError(f"Cannot extract object ddl for table {table} with error {e}")
