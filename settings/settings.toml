@@ -19,7 +19,7 @@ sample_db__user = ''
 sample_db__password = ''
 
 synthetic_db__host = ''
-synthetic_db__port = '5432'
+synthetic_db__port = '5431'
 synthetic_db__database = 'synthetic_postgres_db'
 synthetic_db__user = ''
 synthetic_db__password = ''
