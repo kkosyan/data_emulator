@@ -39,7 +39,6 @@ class LocalContext(Context):
         ddl_extractor = PostgresDdlExtractor(**sample_database_config)
 
         self.data_emulator_for_single_table = DataEmulatorForSingleTable(
-            database=sample_database,
             synthetic_data_uploader=synthetic_data_uploader,
             data_generator=data_generator,
             ddl_extractor=ddl_extractor,
