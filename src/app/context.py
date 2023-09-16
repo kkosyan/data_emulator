@@ -13,26 +13,33 @@ class Context:
 
 class LocalContext(Context):
     def __init__(self, settings: dynaconf.Dynaconf):
-        database_config = {
-            'host': settings.db.host,
-            'port': settings.db.port,
-            'database': settings.db.database,
-            'user': settings.db.user,
-            'password': settings.db.password,
-
+        sample_database_config = {
+            'host': settings.sample_db.host,
+            'port': settings.sample_db.port,
+            'database': settings.sample_db.database,
+            'user': settings.sample_db.user,
+            'password': settings.sample_db.password,
         }
-        database = PostgresDatabase(**database_config)
+        synthetic_database_config = {
+            'host': settings.synthetic_db.host,
+            'port': settings.synthetic_db.port,
+            'database': settings.synthetic_db.database,
+            'user': settings.synthetic_db.user,
+            'password': settings.synthetic_db.password,
+        }
+        sample_database = PostgresDatabase(**sample_database_config)
+        synthetic_database = PostgresDatabase(**synthetic_database_config)
 
         synthetic_data_uploader = PostgresSyntheticDataUploader(
-            database=database,
+            database=synthetic_database,
         )
         data_generator = SdvDataGenerator(
-            database=database,
+            database=sample_database,
         )
-        ddl_extractor = PostgresDdlExtractor(**database_config)
+        ddl_extractor = PostgresDdlExtractor(**sample_database_config)
 
         self.data_emulator_for_single_table = DataEmulatorForSingleTable(
-            database=database,
+            database=sample_database,
             synthetic_data_uploader=synthetic_data_uploader,
             data_generator=data_generator,
             ddl_extractor=ddl_extractor,
