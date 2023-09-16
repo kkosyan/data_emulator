@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users
     age        BIGINT
 );
 
-CREATE USER test_user WITH PASSWORD 'postgres';
 GRANT ALL ON DATABASE sample_postgres_db TO test_user;
 
 INSERT INTO users(user_id, country, gender, age) VALUES
