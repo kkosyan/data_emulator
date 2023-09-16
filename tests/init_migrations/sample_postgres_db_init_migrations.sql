@@ -3,11 +3,11 @@ CREATE TABLE IF NOT EXISTS users
     user_id    BIGINT,
     country    VARCHAR(40),
     gender     VARCHAR(20),
-    age        BIGINT,
+    age        BIGINT
 );
 
 CREATE USER test_user WITH PASSWORD 'postgres';
-GRANT ALL ON DATABASE test_postgres TO test_user;
+GRANT ALL ON DATABASE sample_postgres_db TO test_user;
 
 INSERT INTO users(user_id, country, gender, age) VALUES
     (0, 'US', 'M', 31),
